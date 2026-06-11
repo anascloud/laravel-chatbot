@@ -1,6 +1,8 @@
 # Laravel Chatbot
 
-Drop-in AI chat widget and Customer Support, powered by Laravel and free Groq API.
+A drop-in AI chat widget and customer support solution powered by the free Groq API.
+
+![Preview Image](screenshots/preview.png)
 
 ## Installation
 
