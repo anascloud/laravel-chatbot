@@ -1,6 +1,6 @@
 {
     "name": "anascloud/laravel-chatbot",
-    "description": "A Laravel package for AI Chatbot using Groq API",
+    "description": "Laravel Chatbot — AI-powered customer support chat widget for automation",
     "type": "library",
     "license": "MIT",
     "authors": [
