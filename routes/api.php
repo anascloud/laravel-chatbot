@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use MdAnisurRahaman\LaravelChatbot\Http\Controllers\ChatController;
+use anascloud\LaravelChatbot\Http\Controllers\ChatController;
 
 Route::prefix(config('chatbot.route_prefix', 'api'))->group(function () {
     Route::post('/chat', [ChatController::class, 'chat'])

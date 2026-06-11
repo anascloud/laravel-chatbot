@@ -1,6 +1,6 @@
 <?php
 
-namespace MdAnisurRahaman\LaravelChatbot\Http\Controllers;
+namespace anascloud\LaravelChatbot\Http\Controllers;
 
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;

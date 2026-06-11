@@ -1,6 +1,6 @@
 <?php
 
-namespace MdAnisurRahaman\LaravelChatbot\Models;
+namespace anascloud\LaravelChatbot\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace MdAnisurRahaman\LaravelChatbot;
+namespace anascloud\LaravelChatbot;
 
 use Illuminate\Support\ServiceProvider;
 

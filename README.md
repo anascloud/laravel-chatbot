@@ -7,7 +7,7 @@ An AI-powered chatbot for Laravel using the Groq API.
 You can install the package via composer:
 
 ```bash
-composer require md-anisur-rahaman/laravel-chatbot
+composer require anascloud/laravel-chatbot
 ```
 
 ## Configuration

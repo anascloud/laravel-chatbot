@@ -1,12 +1,12 @@
 {
-    "name": "md-anisur-rahaman/laravel-chatbot",
+    "name": "anascloud/laravel-chatbot",
     "description": "A Laravel package for AI Chatbot using Groq API",
     "type": "library",
     "license": "MIT",
     "authors": [
         {
             "name": "Md. Anisur Rahaman",
-            "email": "anisur@example.com"
+            "email": "anasbinsabiet@gmail.com"
         }
     ],
     "require": {
@@ -16,13 +16,13 @@
     },
     "autoload": {
         "psr-4": {
-            "MdAnisurRahaman\\LaravelChatbot\\": "src/"
+            "anascloud\\LaravelChatbot\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "MdAnisurRahaman\\LaravelChatbot\\LaravelChatbotServiceProvider"
+                "anascloud\\LaravelChatbot\\LaravelChatbotServiceProvider"
             ]
         }
     }
