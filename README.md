@@ -2,7 +2,7 @@
 
 A drop-in AI chat widget and customer support solution powered by the free Groq API.
 
-![Preview Image (https://raw.githubusercontent.com/anascloud/chatgpt/refs/heads/main/preview.png)
+![Preview Image](https://raw.githubusercontent.com/anascloud/chatgpt/main/preview.png)
 
 ## Installation
 
