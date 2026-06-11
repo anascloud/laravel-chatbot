@@ -9,6 +9,10 @@
             "email": "anasbinsabiet@gmail.com"
         }
     ],
+    "support": {
+        "issues": "https://github.com/anascloud/laravel-chatbot/issues",
+        "source": "https://github.com/anascloud/laravel-chatbot"
+    },
     "require": {
         "php": "^8.2",
         "illuminate/support": "^11.0 || ^12.0",
