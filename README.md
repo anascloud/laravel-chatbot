@@ -1,50 +1,40 @@
 # Laravel Chatbot
 
-An AI-powered chatbot for Laravel using the Groq API.
+Drop-in AI chat widget and Customer Support, powered by Laravel and free Groq API.
 
 ## Installation
-
-You can install the package via composer:
 
 ```bash
 composer require anascloud/laravel-chatbot
 ```
 
-## Configuration
+## Setup
 
-Publish the configuration file:
-
+**1. Publish config and assets:**
 ```bash
 php artisan vendor:publish --tag="chatbot-config"
+php artisan vendor:publish --tag="chatbot-assets"
 ```
 
-Add your Groq API key to your `.env` file:
-
+**2. Add your API key to `.env`:**
 ```env
 GROQ_API_KEY=your_groq_api_key_here
 ```
 
-## Usage
-
-### Frontend Widget
-
-The package provides a ready-to-use frontend widget. You can include it in your layout file:
-
+**3. Add the widget before your closing `</body>` tag:**
 ```blade
-{{-- In your layout file (e.g., app.blade.php) --}}
 @include('chatbot::chat-widget')
 
-{{-- Include the assets --}}
 <link rel="stylesheet" href="{{ asset('vendor/chatbot/css/chat-widget.css') }}">
 <script src="{{ asset('vendor/chatbot/js/chat-widget.js') }}" defer></script>
 ```
 
-Make sure you have FontAwesome included for the icons.
+> FontAwesome must be loaded for icons to render.
 
-### Customization
+## Customization
 
-You can customize the system message, model, and other settings in the `config/chatbot.php` file.
+Adjust the model, system message, and other options in `config/chatbot.php`.
 
 ## License
 
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+MIT — see [LICENSE.md](LICENSE.md)

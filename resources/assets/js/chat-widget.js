@@ -27,11 +27,16 @@ function chatSend() {
 
     const botEl = appendMsg('bot', '▌', true);
 
+    function getCsrfFromCookie() {
+        const match = document.cookie.match(/XSRF-TOKEN=([^;]+)/);
+        return match ? decodeURIComponent(match[1]) : null;
+    }
+
     fetch('/api/chat', {
         method: 'POST',
         headers: {
             'Content-Type':  'application/json',
-            'X-CSRF-TOKEN':  document.querySelector('meta[name="csrf-token"]').content,
+            'X-CSRF-TOKEN':   getCsrfFromCookie(),
             'Accept':        'text/event-stream',
         },
         body: JSON.stringify({ message, history: chatHistory }),
@@ -77,7 +82,7 @@ function chatSend() {
 
                         // Support both our wrapped format and raw OpenAI/Groq format
                         const token = parsed.token || (parsed.choices && parsed.choices[0] && parsed.choices[0].delta && parsed.choices[0].delta.content);
-                        
+
                         if (token) {
                             full += token;
                             botEl.textContent = full + '▌';
