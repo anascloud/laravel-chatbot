@@ -37,14 +37,20 @@ class ChatController extends Controller
 
         return response()->stream(function () use ($messages) {
 
+            @set_time_limit(0);
+            @ini_set('zlib.output_compression', '0');
+            ignore_user_abort(true);
+
             $apiKey = config('chatbot.groq_api_key');
 
             if (!$apiKey) {
-                echo "data: " . json_encode(['error' => 'Groq API key not configured']) . "\n\n";
-                echo "data: [DONE]\n\n";
-                ob_flush(); flush();
+                $this->sse(['error' => 'Groq API key not configured.']);
+                $this->sse('[DONE]');
                 return;
             }
+
+            // Let the client know the stream is alive before the upstream call.
+            $this->sse(['status' => 'thinking']);
 
             try {
                 $client = new Client();
@@ -68,6 +74,10 @@ class ChatController extends Controller
                 $buffer = '';
 
                 while (!$body->eof()) {
+                    if (connection_aborted()) {
+                        break;
+                    }
+
                     $buffer .= $body->read(1024);
 
                     while (($pos = strpos($buffer, "\n")) !== false) {
@@ -83,12 +93,18 @@ class ChatController extends Controller
                         $chunk = json_decode($data, true);
                         if (!$chunk) continue;
 
+                        if (isset($chunk['error'])) {
+                            $msg = is_array($chunk['error'])
+                                ? ($chunk['error']['message'] ?? json_encode($chunk['error']))
+                                : $chunk['error'];
+                            $this->sse(['error' => $msg]);
+                            break 2;
+                        }
+
                         $token = data_get($chunk, 'choices.0.delta.content');
 
                         if ($token !== null && $token !== '') {
-                            echo "data: " . json_encode(['token' => $token]) . "\n\n";
-                            ob_flush();
-                            flush();
+                            $this->sse(['token' => $token]);
                         }
 
                         if (data_get($chunk, 'choices.0.finish_reason') === 'stop') {
@@ -97,20 +113,40 @@ class ChatController extends Controller
                     }
                 }
 
-            } catch (\Exception $e) {
-                echo "data: " . json_encode(['error' => $e->getMessage()]) . "\n\n";
-                ob_flush(); flush();
+            } catch (\GuzzleHttp\Exception\RequestException $e) {
+                $message = 'Upstream request failed';
+                if ($e->hasResponse()) {
+                    $status  = $e->getResponse()->getStatusCode();
+                    $body    = (string) $e->getResponse()->getBody();
+                    $decoded = json_decode($body, true);
+                    $detail  = $decoded['error']['message'] ?? $body;
+                    $message = "Groq API returned {$status}: " . mb_substr(trim($detail), 0, 300);
+                } else {
+                    $message = 'Could not reach the AI provider: ' . $e->getMessage();
+                }
+                $this->sse(['error' => $message]);
+            } catch (\Throwable $e) {
+                $this->sse(['error' => 'Server error: ' . $e->getMessage()]);
             }
 
-            echo "data: [DONE]\n\n";
-            ob_flush();
-            flush();
+            $this->sse('[DONE]');
 
         }, 200, [
-            'Content-Type'      => 'text/event-stream',
-            'Cache-Control'     => 'no-cache',
+            'Content-Type'      => 'text/event-stream; charset=UTF-8',
+            'Cache-Control'     => 'no-cache, no-transform',
             'X-Accel-Buffering' => 'no',
             'Connection'        => 'keep-alive',
         ]);
+    }
+
+    private function sse($payload): void
+    {
+        $data = is_string($payload) ? $payload : json_encode($payload);
+        echo "data: {$data}\n\n";
+
+        if (ob_get_level() > 0) {
+            @ob_flush();
+        }
+        @flush();
     }
 }
