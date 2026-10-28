@@ -1,8 +1,25 @@
 {
     "name": "anascloud/laravel-chatbot",
-    "description": "Laravel Chatbot — AI-powered customer support chat widget for automation",
+    "description": "Laravel Chatbot — AI chat widget and customer support assistant for automation by free LLM API.",
     "type": "library",
     "license": "MIT",
+    "keywords":[
+    "laravel",
+    "ai",
+    "chatbot",
+    "ai-chatbot",
+    "laravel-ai-chatbot",
+    "automation",
+    "ai-automation",
+    "laravel-chatbot",
+    "customer-support",
+    "llm",
+    "openai",
+    "groq",
+    "ai-widget",
+    "support-chat",
+    "laravel-package"
+],
     "authors": [
         {
             "name": "Md. Anisur Rahaman",
